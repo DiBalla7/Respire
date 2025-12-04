@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Respire. Conecte. Medite.</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header" role="banner">
+      <div class="container header-inner">
+        <div class="logo" aria-hidden="true">
+          🕊️ <span class="logo-text">Respire</span>
+        </div>
+        <nav>
+          <button id="btn-open-login" class="btn ghost">
+            Entrar / Cadastrar
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container main-grid" id="main" role="main">
+      <div class="left-column">
+        <section class="hero" aria-labelledby="hero-title">
+          <h1 id="hero-title">Respire. Conecte. Medite.</h1>
+          <p class="lead">Sessões rápidas e foco. Escolha um tempo e comece.</p>
+
+          <div class="timer-area" aria-label="Temporizador principal">
+            <div class="timer-card" aria-live="polite">
+              <div class="progress-wrap" aria-hidden="true">
+                <svg
+                  class="progress-ring"
+                  width="160"
+                  height="160"
+                  role="img"
+                  aria-hidden="true"
+                >
+                  <circle class="progress-bg" cx="80" cy="80" r="72" />
+                  <circle class="progress-fg" cx="80" cy="80" r="72" />
+                </svg>
+                <div class="time-display" id="time-display">03:00</div>
+              </div>
+
+              <div
+                class="controls"
+                role="toolbar"
+                aria-label="Controles do temporizador"
+              >
+                <button class="btn" id="btn-start">Iniciar</button>
+                <button class="btn" id="btn-pause" disabled>Pausar</button>
+                <button class="btn" id="btn-reset">Reiniciar</button>
+                <button class="btn ghost" id="btn-cancel">Cancelar</button>
+              </div>
+
+              <div class="options">
+                <label>
+                  <input type="checkbox" id="chk-sound" checked /> Reproduzir
+                  música relaxante
+                </label>
+
+                <div
+                  class="sound-select-wrap"
+                  style="display: inline-block; margin-left: 8px"
+                >
+                  <label for="sel-sound" class="visually-hidden"
+                    >Escolha o som de finalização</label
+                  >
+                  <select id="sel-sound" aria-describedby="sel-sound-desc">
+                    <option value="local-audio">Música relaxante</option>
+                    <option value="none">Nenhum</option>
+                  </select>
+                 
+                </div>
+
+              
+
+              <div
+                class="preset-group"
+                role="radiogroup"
+                aria-label="Tempos rápidos"
+                id="preset-group"
+              >
+                <button
+                  class="preset btn"
+                  data-seconds="180"
+                  aria-pressed="false"
+                >
+                  3 min
+                </button>
+                <button
+                  class="preset btn"
+                  data-seconds="300"
+                  aria-pressed="false"
+                >
+                  5 min
+                </button>
+                <button
+                  class="preset btn"
+                  data-seconds="600"
+                  aria-pressed="false"
+                >
+                  10 min
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          class="dashboard card compact-dashboard"
+          id="dashboard"
+          aria-labelledby="dashboard-title"
+        >
+          <h2 id="dashboard-title">Dashboard</h2>
+          <div class="stats-grid compact-stats">
+            <div>
+              <strong id="total-minutes">0</strong>
+              <div>Tempo total meditado (min)</div>
+            </div>
+            <div>
+              <strong id="sessions-count">0</strong>
+              <div>Sessões</div>
+            </div>
+            <div>
+              <strong id="weekly-progress">0%</strong>
+              <div>Meta semanal</div>
+            </div>
+          </div>
+
+          <h4>Sessões recentes</h4>
+          <ul id="sessions-list" class="sessions-list compact-sessions"></ul>
+        </section>
+      </div>
+
+      <aside class="sidebar" aria-labelledby="tips-title">
+        <div class="card">
+          <h2 id="tips-title">Dica do dia</h2>
+          <p id="tip-of-day">
+            Feche os olhos por 30 segundos e conte suas respirações.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Dicas para meditar</h3>
+          <div id="tips-list" class="tips-list" role="list"></div>
+        </div>
+
+        <div class="card">
+          <h3>Conta</h3>
+          <div id="account-area"></div>
+        </div>
+
+        <div class="card">
+          <h3>Exportar / Histórico</h3>
+          <button class="btn" id="btn-export" disabled>Exportar CSV</button>
+          <button class="btn ghost" id="btn-clear-data">
+            Apagar dados (local)
+          </button>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div>© <span id="year"></span> Respire • Projeto em HTML/CSS/JS</div>
+        <div class="foot-links">Termos • Privacidade</div>
+      </div>
+    </footer>
+
+    <!-- Login modal -->
+    <div
+      id="login-modal"
+      class="modal"
+      aria-hidden="true"
+      role="dialog"
+      aria-labelledby="modal-title"
+    >
+      <div class="modal-content">
+        <button class="modal-close" id="modal-close" aria-label="Fechar">
+          &times;
+        </button>
+        <h3 id="modal-title">Entrar / Cadastrar</h3>
+        <form id="auth-form" autocomplete="off">
+          <label for="auth-email">Email</label>
+          <input id="auth-email" type="email" required />
+
+          <label for="auth-pass">Senha</label>
+          <input id="auth-pass" type="password" minlength="6" required />
+
+          <div class="form-row">
+            <button class="btn primary" type="button" id="btn-login">
+              Entrar
+            </button>
+            <button class="btn" type="button" id="btn-register">
+              Cadastrar
+            </button>
+            <button class="btn" type="button" id="btn-google">
+              Entrar com Google
+            </button>
+            <button
+              class="btn ghost"
+              type="button"
+              id="btn-logout"
+              style="display: none"
+            >
+              Sair
+            </button>
+          </div>
+
+          <p class="muted">
+            Dados são salvos no Firebase para cada usuário autenticado.<br />
+            Use <b>Entrar</b> para login, <b>Cadastrar</b> para novo usuário ou
+            <b>Entrar com Google</b>.
+          </p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Player de áudio local oculto -->
+    <audio
+      id="audio-player"
+      src="audios/pufino-soaked.mp3"
+      loop
+      preload="auto"
+      style="display: none"
+    ></audio>
+
+    <!-- Firebase App (core) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app-compat.js"></script>
+    <!-- Firebase Auth -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth-compat.js"></script>
+    <!-- Firebase Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore-compat.js"></script>
+
+    <!-- scripts -->
+    <script src="app.js" defer></script>
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
